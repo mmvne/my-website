@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -39,15 +39,19 @@
                 </li>
             </ul>
             <form class="d-flex">
-                <button class="btn btn-outline-dark" type="submit">
+                <a href="/user/cart" class="btn btn-outline-dark" role="button">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
                     <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                </button>
+                </a>
             </form>
-            <a href="/user/login" class="btn btn-outline-dark" role="button">
+            <a sec:authorize="!isAuthenticated()" href="/user/login" class="btn btn-outline-dark" role="button">
                 <i class="bi-person-fill me-1"></i>
                 login
+            </a>
+            <a sec:authorize="isAuthenticated()" href="/user/logout" class="btn btn-outline-dark" role="button">
+                <i class="bi-person-fill me-1"></i>
+                logout
             </a>
         </div>
     </div>
