@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 가입 완료</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+</head>
+<body>
+    <div th:if="${result}">
+
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">회원 가입 완료</div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="cols-sm-2 control-label">
+                                    <p> 회원 가입이 완료 되었습니다. </p>
+                                    <p> 가입하신 이메일에서 이메일 인증 후 이용 가능하십니다.</p>
+                                    <a href="/">메인으로</a>
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${result eq false}">
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">회원 가입 실패</div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="cols-sm-2 control-label">
+                                    <p> 회원 가입에 실패 하였습니다. </p>
+                                    <a href="/user/register">회원 가입 하기</a>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
