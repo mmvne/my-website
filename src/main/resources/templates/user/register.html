@@ -16,9 +16,25 @@
         margin-top:-330px;
     }
 </style>
+<!--<script>-->
+<!--    $(function(){-->
+<!--        $('form').submit(function(){-->
+<!--            var password = $(this).find('input[name=password]').val();-->
+<!--            var confirm = $(this).find('input[name=confirm]').val();-->
+
+<!--            if(password != confirm){-->
+<!--                alert("비밀번호가 일치하지 않습니다.");-->
+<!--                return false;-->
+<!--            }-->
+
+
+<!--        })-->
+
+
+<!--    });-->
+<!--</script>-->
 </head>
 <body>
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -26,28 +42,19 @@
                 <div class="card-header">회원가입</div>
                 <div class="card-body">
 
-                    <form class="form-horizontal" method="post" action="#">
+                    <form class="form-horizontal" method="post">
 
                         <div class="form-group">
-                            <label for="name" class="cols-sm-2 control-label">Your Name</label>
-                            <div class="cols-sm-10">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter your Name" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="cols-sm-2 control-label">Your Email</label>
+                            <label for="userId" class="cols-sm-2 control-label">아이디(이메일) 입력</label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                                    <input type="text" class="form-control" name="email" id="email" placeholder="Enter your Email" />
+                                    <input type="email" class="form-control" name="userId" id="userId" placeholder="Enter your Email" />
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="username" class="cols-sm-2 control-label">Username</label>
+                            <label for="username" class="cols-sm-2 control-label">이름 입력</label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
@@ -56,7 +63,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="password" class="cols-sm-2 control-label">Password</label>
+                            <label for="password" class="cols-sm-2 control-label">비밀번호 입력</label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
@@ -65,7 +72,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+                            <label for="confirm" class="cols-sm-2 control-label">확인 비밀번호 입력</label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
@@ -73,12 +80,23 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="confirm" class="cols-sm-2 control-label">전화번호 입력</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="tel" class="form-control" name="phone" id="phone" placeholder="Enter your Phone" />
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group ">
-                            <button type="button" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
                         </div>
-                        <div class="login-register">
-                            <a href="/user/login">Login</a>
+                        <div>
+                            <a href="/user/login">로그인</a>
+                            <a class="ml-3" href="/">메인으로</a>
                         </div>
+
                     </form>
                 </div>
 
