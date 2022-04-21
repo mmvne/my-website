@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품수정 페이지</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+<script>
+    // $(function(){
+    //
+    //     $("#udtButton").on("click", function(){
+    //         alert("상품이 수정 되었습니다.");
+    //     })
+    //
+    //     $("#categorySelect").on("change", function(){
+    //         var selectText = $("#categorySelect option:selected").text();
+    //
+    //         $("input[name='category']").val(selectText);
+    //
+    //     })
+    //
+    //     $("#saleCheck").on("click", function(){
+    //         var checked = $('#saleCheck').is(':checked');
+    //
+    //         if(checked){
+    //             $("input[name='saleYn']").val(true);
+    //             $("input[name='salePrice']").val("");
+    //             $("input[name='saleEndDtText']").val("");
+    //         }
+    //
+    //         if(!checked){
+    //             $("input[name='salePrice']").val(0);
+    //             $("input[name='saleEndDtText']").val(0);
+    //         }
+    //
+    //
+    //     })
+    //
+    //
+    // });
+</script>
+</head>
+<body>
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">상품 수정</div>
+                <div class="card-body">
+
+                    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="productId" th:value="${detail.productId}"/>
+                        <div class="form-group">
+                            <select id="categorySelect" name="categoryId" required>
+                                <option value="">카테고리 선택</option>
+                                <option th:each="x : ${category}" th:value="${x.id}" th:text="${x.getCategoryName()}">기획</option>
+                            </select>
+                            <div class="cols-sm-10 mt-1">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" th:value="${categoryName}" name="category" id="category" readonly required placeholder="카테고리"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="keyword" class="cols-sm-2 control-label">키워드 입력</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" th:value="${detail.keyword}" name="keyword" id="keyword" required placeholder="반팔, 맨투맨, 셔츠 ..."/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="productName" class="cols-sm-2 control-label">상품이름 입력</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" th:value="${detail.productName}" name="productName" id="productName" required placeholder="상품 이름"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender" class="cols-sm-2 control-label">성별 입력</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" th:value="${detail.gender}" name="gender" id="gender" required placeholder="남자/여자"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contents" class="cols-sm-2 control-label">상품상세 입력</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" th:value="${detail.contents}" name="contents" id="contents" required placeholder="상품 상세"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="sizeLarge" class="cols-sm-2 control-label">사이즈 L 수량 입력</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" th:value="${detail.sizeLarge}" name="sizeLarge" id="sizeLarge" required placeholder="0개"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="sizeXlarge" class="cols-sm-2 control-label">사이즈 XL 수량 입력</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" th:value="${detail.sizeXlarge}" name="sizeXlarge" id="sizeXlarge" required placeholder="0개"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="sizeFree" class="cols-sm-2 control-label">프리사이즈 수량 입력</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" th:value="${detail.sizeFree}" name="sizeFree" id="sizeFree" required placeholder="0개"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="price" class="cols-sm-2 control-label">가격 입력</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" th:value="${detail.price}" name="price" id="price" required placeholder="0원"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="cols-sm-2 control-label">할인 여부</label>
+                            <div class="cols-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" th:checked="${detail.isSaleYn()} ? 'checked'" type="checkbox" name="saleYn" id="saleCheck">
+                                    <label class="form-check-label" for="saleCheck">
+                                        할인 시 체크 해주세요
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="salePrice" class="cols-sm-2 control-label">할인가격 입력</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" th:value="${detail.salePrice}" name="salePrice" id="salePrice" value="0" required placeholder="0원"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="saleEndDtText" class="cols-sm-2 control-label">할인 종료일 입력</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" th:value="${detail.saleEndDt}" name="saleEndDtText" id="saleEndDtText" value="0" required placeholder="0000-00-00일"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="file" class="cols-sm-2 control-label">상품 이미지</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="file" class="form-control" name="file" id="file" required/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <button type="submit" id="udtButton" class="btn btn-primary btn-lg btn-block login-button">상품 수정</button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
