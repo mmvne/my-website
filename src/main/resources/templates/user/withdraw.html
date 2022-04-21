@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 탈퇴</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+</head>
+<script>
+    // $(function(){
+    //     $('form').submit(function(){
+    //         if(!confirm('정말 회원 탈퇴 하시겠습니까?')){
+    //             return false;
+    //         }
+    //     })
+    // })
+</script>
+<body>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">회원 탈퇴</div>
+                <div class="card-body">
+                    <form class="form-horizontal" method="post">
+                        <div class="form-group">
+                            <label for="password" class="cols-sm-2 control-label">
+                            <p>회원 탈퇴를 하면 더이상 서비스를 이용할 수 없습니다.
+                            <br>회원 탈퇴를 진행하시겠습니까?
+                            <br><br>비밀번호 입력
+                            </p>
+                            </label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter your Password" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block login-button">회원 탈퇴</button>
+                        </div>
+                        <div>
+                            <a href="/">메인으로</a>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
