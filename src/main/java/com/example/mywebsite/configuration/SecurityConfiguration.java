@@ -60,6 +60,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         )
                         .permitAll();
 
+        http.authorizeHttpRequests()
+                        .antMatchers( "/admin/**")
+                        .hasAuthority("ROLE_ADMIN");
+
 
         http.formLogin()
                 .loginPage("/user/login")

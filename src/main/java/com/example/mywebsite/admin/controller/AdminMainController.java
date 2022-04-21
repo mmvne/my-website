@@ -1,4 +1,4 @@
-package com.example.mywebsite.main.controller;
+package com.example.mywebsite.admin.controller;
 
 import com.example.mywebsite.admin.entity.Product;
 import com.example.mywebsite.admin.repository.ProductRepository;
@@ -13,23 +13,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequiredArgsConstructor
 @Controller
-public class MainController {
+public class AdminMainController {
 
     private final ProductRepository productRepository;
 
-    @RequestMapping("/")
-    public String index(Model model
-            , @PageableDefault(size = 8, sort = "productId", direction = Sort.Direction.DESC) Pageable pageable){
+    @RequestMapping("/admin/main.do")
+    public String main(Model model
+            ,  @PageableDefault(size = 8, sort = "productId", direction = Sort.Direction.DESC) Pageable pageable){
 
-        Page<Product> list = productRepository.findAll(pageable);
+        Page<Product> products = productRepository.findAll(pageable);
 
         int startPage = 1;
-        int endPage = list.getTotalPages();
+        int endPage = products.getTotalPages();
 
-        model.addAttribute("list", list);
+        model.addAttribute("products", products);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
-        return "index";
+        return "admin/main";
     }
+
 }

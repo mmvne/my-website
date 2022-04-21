@@ -13,4 +13,7 @@ public class UserPasswordInput {
     // 초괴화용 uuid
     private String id;
     private String password;
+
+    // 유저 비밀번호 변경
+    private String newPassword;
 }

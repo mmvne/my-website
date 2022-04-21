@@ -1,9 +1,10 @@
 package com.example.mywebsite.user.service;
 
+import com.example.mywebsite.user.dto.UserDto;
+import com.example.mywebsite.user.model.ServiceResult;
 import com.example.mywebsite.user.model.UserInput;
 import com.example.mywebsite.user.model.UserPasswordInput;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Service;
 
 public interface UserService extends UserDetailsService {
     /*
@@ -32,4 +33,24 @@ public interface UserService extends UserDetailsService {
     * uuid와 password 가져와서 비밀번호 변경
     * */
     boolean resetPassword(String id, String password);
+
+    /*
+    * 회원 정보 가져오기
+    * */
+    UserDto detail(String id);
+
+    /*
+    * 회원 정보 수정
+    * */
+    ServiceResult updateUser(UserInput parameter);
+
+    /*
+     * 회원 탈퇴
+     * */
+    ServiceResult withdraw(UserPasswordInput parameter);
+
+    /*
+     * 회원 정보 비밀번호 변경
+     * */
+    ServiceResult password(UserPasswordInput parameter);
 }

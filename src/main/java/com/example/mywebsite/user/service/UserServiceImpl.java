@@ -3,7 +3,10 @@ package com.example.mywebsite.user.service;
 import com.example.mywebsite.components.MailComponents;
 import com.example.mywebsite.exception.UserNotEmailAuthException;
 import com.example.mywebsite.exception.UserStopUserException;
+import com.example.mywebsite.user.dto.UserDto;
 import com.example.mywebsite.user.entity.User;
+import com.example.mywebsite.user.entity.UserCode;
+import com.example.mywebsite.user.model.ServiceResult;
 import com.example.mywebsite.user.model.UserInput;
 import com.example.mywebsite.user.model.UserPasswordInput;
 import com.example.mywebsite.user.repository.UserRepository;
@@ -13,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -160,6 +164,96 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
 
         return true;
+    }
+
+    @Override
+    public UserDto detail(String id) {
+
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            return null;
+        }
+
+        User user = optionalUser.get();
+
+        return UserDto.of(user);
+    }
+
+    @Override
+    public ServiceResult updateUser(UserInput parameter) {
+        Optional<User> optionalUser = userRepository.findById(parameter.getUserId());
+        if (optionalUser.isEmpty()) {
+            return new ServiceResult(false, "회원 정보가 존재하지 않습니다.");
+        }
+        User user = optionalUser.get();
+
+        user.setUserName(parameter.getUserName());
+        user.setPhone(parameter.getPhone());
+        user.setZipcode(parameter.getZipcode());
+        user.setAddr(parameter.getAddr());
+        user.setAddrDetail(parameter.getAddrDetail());
+        userRepository.save(user);
+
+        return new ServiceResult();
+    }
+
+    @Override
+    public ServiceResult withdraw(UserPasswordInput parameter) {
+        Optional<User> optionalUser = userRepository.findById(parameter.getUserId());
+
+        if (optionalUser.isEmpty()) {
+            return new ServiceResult(false, "회원 정보가 존재하지 않습니다.");
+        }
+
+        User user = optionalUser.get();
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        if(!encoder.matches(parameter.getPassword(), user.getPassword())){
+            return new ServiceResult(false, "비밀번호가 일치하지 않습니다.");
+        }
+
+        user.setUserName("삭제회원");
+        user.setPhone("");
+        user.setPassword("");
+        user.setRegDt(null);
+        user.setUdtDt(null);
+        user.setEmailAuthYn(false);
+        user.setEmailAuthDt(null);
+        user.setEmailAuthKey("");
+        user.setResetPasswordKey("");
+        user.setResetPasswordLimitDt(null);
+        user.setUserStatus(USER_STATUS_WITHDRAW);
+        user.setZipcode("");
+        user.setAddr("");
+        user.setAddrDetail("");
+        userRepository.save(user);
+
+        return new ServiceResult();
+    }
+
+    @Override
+    public ServiceResult password(UserPasswordInput parameter) {
+
+        Optional<User> optionalUser = userRepository.findById(parameter.getUserId());
+
+        if (optionalUser.isEmpty()) {
+            return new ServiceResult(false, "회원 정보가 존재하지 않습니다.");
+        }
+
+        User user = optionalUser.get();
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        if(!encoder.matches(parameter.getPassword(), user.getPassword())){
+            return new ServiceResult(false, "비밀번호가 일치하지 않습니다.");
+        }
+
+        String encPassword = BCrypt.hashpw(parameter.getNewPassword(), BCrypt.gensalt());
+        user.setPassword(encPassword);
+        userRepository.save(user);
+
+        return new ServiceResult();
     }
 
     @Override
