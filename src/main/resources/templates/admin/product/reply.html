@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>문의등록 페이지</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <script>
+        $(function(){
+
+            $("#addButton").on("click", function(){
+                alert("등록 되었습니다.");
+            })
+
+
+            $("#udtButton").on("click", function(){
+                alert("수정 되었습니다.");
+            })
+
+
+        });
+    </script>
+    <style>
+
+        textarea {
+            width: 365%;
+            height: 200px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: solid 2px #000000;
+            border-radius: 5px;
+            font-size: 16px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">문의 답변 하기</div>
+                <div class="card-body">
+
+                    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+
+
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label class="cols-sm-2 control-label">답변내용</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <label>
+                                        <textarea th:if="${inquiry.replyText == null}" name="replyText" required></textarea>
+                                        <textarea th:if="${inquiry.replyText != null}" th:text="${inquiry.replyText}" name="replyText" required></textarea>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="inquiryId" th:value="${id}"/>
+                        <div class="form-group ">
+                            <button type="submit" th:if="${inquiry.replyText == null}" id="addButton" class="btn btn-primary btn-lg btn-block login-button">등록</button>
+                            <button type="submit" th:if="${inquiry.replyText != null}" id="udtButton" class="btn btn-primary btn-lg btn-block login-button">수정</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

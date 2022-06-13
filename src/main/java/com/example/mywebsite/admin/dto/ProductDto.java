@@ -35,8 +35,10 @@ public class ProductDto {
     private Long sizeLarge; //사이즈별 수량
     private Long sizeXlarge;
     private Long sizeFree;
-    private Long likeCount; // 좋아요수
     private Long saleCount; // 누적 판매량
+
+    private Long reviewScore;
+    private Long reviewCount;
 
     private String filename;
     private String urlFilename;
@@ -58,8 +60,9 @@ public class ProductDto {
                 .sizeLarge(product.getSizeLarge())
                 .sizeXlarge(product.getSizeXlarge())
                 .sizeFree(product.getSizeFree())
-                .likeCount(product.getLikeCount())
                 .saleCount(product.getSaleCount())
+                .reviewScore(product.getReviewScore())
+                .reviewCount(product.getReviewCount())
                 .filename(product.getFilename())
                 .urlFilename(product.getUrlFilename())
                 .build();

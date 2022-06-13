@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>문의 확인 페이지</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <script>
+        $(function () {
+
+            $("#replyBtn").on("click", function (){
+
+                var id = $('input[name="inquiryId"]').val();
+
+                location.href = "/admin/inquiry/reply.do?id=" + id;
+
+            });
+
+        });
+    </script>
+    <style>
+
+        textarea {
+            width: 365%;
+            height: 200px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: solid 2px #000000;
+            border-radius: 5px;
+            font-size: 16px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">문의 내역</div>
+                <div class="card-body">
+
+                    <div class="form-group">
+                        <div style=" display: flex; align-items: center;">
+                            <a th:href="@{/user/product/detail(id=${userOrder.productId})}"><img
+                                    style="width: auto; height: auto; max-width: 200px; max-height: 200px;"
+                                    th:src="${userOrder.urlFilename}" class="img-thumbnail" alt="Cinque Terre"></a>
+                            <h5 th:text="${userOrder.productName}">상품이름</h5>&nbsp;
+                            <h5 th:text="${userOrder.productOption}">사이즈</h5>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name" class="cols-sm-2 control-label">작성자</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-envelope fa"
+                                                                   aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="name" id="name"
+                                       th:value="${user.userName}" readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="cols-sm-2 control-label">휴대전화</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-envelope fa"
+                                                                   aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="phone" id="phone" th:value="${user.phone}"
+                                       readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userId" class="cols-sm-2 control-label">이메일</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-envelope fa"
+                                                                   aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="userId" id="userId"
+                                       th:value="${user.userId}" readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inquiryType" class="cols-sm-2 control-label">문의 유형</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-envelope fa"
+                                                                   aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="inquiryType" id="inquiryType"
+                                       th:value="${inquiry.inquiryType}" readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" th:if="${image != null}">
+                        <label class="cols-sm-2 control-label">문의 사진</label>
+                        <div>
+                            <img style="width: auto; height: auto; max-width: 500px; max-height: 450px;" th:src="${image}">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label class="cols-sm-2 control-label">문의 내용</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock fa-lg"
+                                                                   aria-hidden="true"></i></span>
+                                <label>
+                                    <textarea name="text" th:text="${inquiry.inquiryText}" readonly></textarea>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="inquiryId" th:value="${inquiry.inquiryId}"/>
+                        <button id="replyBtn" class="btn btn-primary btn-lg btn-block login-button"
+                        >답변하기
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

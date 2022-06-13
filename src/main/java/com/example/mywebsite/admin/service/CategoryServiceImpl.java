@@ -43,6 +43,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public boolean delete(CategoryInput parameter) {
         categoryRepository.deleteById(parameter.getId());
-        return false;
+        return true;
     }
 }

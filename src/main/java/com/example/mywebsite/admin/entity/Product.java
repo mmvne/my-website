@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -39,8 +36,10 @@ public class Product {
     private Long sizeLarge; //사이즈별 수량
     private Long sizeXlarge;
     private Long sizeFree;
-    private Long likeCount; // 좋아요수
     private Long saleCount; // 누적 판매량
+
+    private Long reviewScore;
+    private Long reviewCount;
 
     private String filename;
     private String urlFilename;

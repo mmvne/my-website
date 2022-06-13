@@ -145,7 +145,7 @@ public class UserController {
             return "common/error";
         }
 
-        return "redirect:/user/info";
+        return "redirect:/";
     }
 
     @GetMapping("/user/withdraw")
@@ -169,9 +169,4 @@ public class UserController {
         return "redirect:/user/logout";
     }
 
-    @GetMapping("/user/cart")
-    public String cart(){
-
-        return "user/cart";
-    }
 }

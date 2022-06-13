@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>문의등록 페이지</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+<script>
+    $(function(){
+
+        $("#addButton").on("click", function(){
+            alert("등록 되었습니다.");
+        })
+
+
+        $(".starRev span").click(function () {
+            var index = $(".starRev span").index(this);
+            console.log(index);
+
+
+            for (var i = 0; i < 5; i++) {
+
+                $(this).parent().children('span').removeClass('on');
+                $(this).addClass('on').prevAll('span').addClass('on');
+            }
+            $("#reviewScore").val(index + 1);
+
+            return false;
+
+
+        });
+        /**
+         * 단일파일 업로드
+         */
+        function readImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    const previewImage = document.getElementById('previewImage');
+                    previewImage.src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+// 이벤트 리스너
+        document.getElementById('file').addEventListener('change', (e) => {
+            readImage(e.target);
+        })
+
+    });
+</script>
+<style>
+
+
+    textarea {
+        width: 365%;
+        height: 200px;
+        padding: 10px;
+        box-sizing: border-box;
+        border: solid 2px #000000;
+        border-radius: 5px;
+        font-size: 16px;
+        resize: vertical;
+    }
+</style>
+</head>
+<body>
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">문의 하기</div>
+                <div class="card-body">
+
+                    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+
+                        <div class="form-group">
+                            <label class="cols-sm-2 control-label">문의 유형</label>
+                            <select id="inquirySelect" name="inquiryType" required>
+                                <option value="">문의 유형</option>
+                                <option>교환</option>
+                                <option>환불</option>
+                                <option>배송</option>
+                                <option>주문/결제</option>
+                                <option>회원</option>
+                                <option>기타</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="cols-sm-2 control-label">주문 상품</label>
+                            <select style="width: 300px; text-align: center;" id="productSelect" name="orderId" required>
+                                <option value="">주문 상품 선택</option>
+                                <option th:each="x : ${orderList}" th:value="${x.orderId}" th:text="${x.productName}">
+                                    상품이름
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="cols-sm-2 control-label">작성자</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="name" id="name" th:value="${user.userName}" required readonly/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone" class="cols-sm-2 control-label">휴대전화</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="phone" id="phone" th:value="${user.phone}" required readonly/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userId" class="cols-sm-2 control-label">이메일</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="userId" id="userId" th:value="${user.userId}" required readonly/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject" class="cols-sm-2 control-label">제목</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="subject" id="subject" required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label class="cols-sm-2 control-label">문의내용</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <label>
+                                        <textarea name="inquiryText" required></textarea>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 3px;">
+                            <label for="file" class="cols-sm-2 control-label">사진</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="file" class="form-control" name="file" id="file"/>
+                                </div>
+                            </div>
+                        </div>
+                        <img style="width: 500px; margin-bottom: 10px;" id="previewImage">
+                        <div class="form-group ">
+                            <button type="submit" id="addButton" class="btn btn-primary btn-lg btn-block login-button">등록</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

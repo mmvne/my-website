@@ -17,21 +17,21 @@
     }
 </style>
 <script>
-    // $(function(){
-    //     $('form').submit(function(){
-    //         var password = $(this).find('input[name=password]').val();
-    //         var confirm = $(this).find('input[name=confirm]').val();
-    //
-    //         if(password != confirm){
-    //             alert("비밀번호가 일치하지 않습니다.");
-    //             return false;
-    //         }
-    //
-    //
-    //     })
-    //
-    //
-    // });
+    $(function(){
+        $('form').submit(function(){
+            var password = $(this).find('input[name=password]').val();
+            var confirm = $(this).find('input[name=confirm]').val();
+
+            if(password != confirm){
+                alert("비밀번호가 일치하지 않습니다.");
+                return false;
+            }
+
+
+        })
+
+
+    });
 </script>
 </head>
 <body>

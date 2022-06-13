@@ -9,38 +9,38 @@
     <!------ Include the above in your HEAD tag ---------->
 
 <script>
-    // $(function(){
-    //
-    //     $("#addButton").on("click", function(){
-    //         alert("상품이 등록 되었습니다.");
-    //     })
-    //
-    //     $("#categorySelect").on("change", function(){
-    //         var selectText = $("#categorySelect option:selected").text();
-    //
-    //         $("input[name='category']").val(selectText);
-    //
-    //     })
-    //
-    //     $("#saleCheck").on("click", function(){
-    //         var checked = $('#saleCheck').is(':checked');
-    //
-    //         if(checked){
-    //             $("input[name='saleYn']").val(true);
-    //             $("input[name='salePrice']").val("");
-    //             $("input[name='saleEndDtText']").val("");
-    //         }
-    //
-    //         if(!checked){
-    //             $("input[name='salePrice']").val(0);
-    //             $("input[name='saleEndDtText']").val(0);
-    //         }
-    //
-    //
-    //     })
-    //
-    //
-    // });
+    $(function(){
+
+        $("#addButton").on("click", function(){
+            alert("상품이 등록 되었습니다.");
+        })
+
+        $("#categorySelect").on("change", function(){
+            var selectText = $("#categorySelect option:selected").text();
+
+            $("input[name='category']").val(selectText);
+
+        })
+
+        $("#saleCheck").on("click", function(){
+            var checked = $('#saleCheck').is(':checked');
+
+            if(checked){
+                $("input[name='saleYn']").val(true);
+                $("input[name='salePrice']").val("");
+                $("input[name='saleEndDtText']").val("");
+            }
+
+            if(!checked){
+                $("input[name='salePrice']").val(0);
+                $("input[name='saleEndDtText']").val(0);
+            }
+
+
+        })
+
+
+    });
 </script>
 </head>
 <body>
@@ -105,7 +105,7 @@
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                                    <input type="text" class="form-control" name="sizeLarge" id="sizeLarge" required placeholder="0개"/>
+                                    <input type="text" class="form-control" name="sizeLarge" id="sizeLarge"  placeholder="0개"/>
                                 </div>
                             </div>
                         </div>
@@ -114,7 +114,7 @@
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                                    <input type="text" class="form-control" name="sizeXlarge" id="sizeXlarge" required placeholder="0개"/>
+                                    <input type="text" class="form-control" name="sizeXlarge" id="sizeXlarge"  placeholder="0개"/>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                                    <input type="text" class="form-control" name="sizeFree" id="sizeFree" required placeholder="0개"/>
+                                    <input type="text" class="form-control" name="sizeFree" id="sizeFree"  placeholder="0개"/>
                                 </div>
                             </div>
                         </div>

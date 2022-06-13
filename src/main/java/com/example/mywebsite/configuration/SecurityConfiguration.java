@@ -57,6 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         , "/user/email_auth"
                         , "/user/find/password"
                         , "/user/reset/password"
+                        , "/user/product/detail"
                         )
                         .permitAll();
 

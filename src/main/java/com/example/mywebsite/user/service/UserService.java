@@ -53,4 +53,9 @@ public interface UserService extends UserDetailsService {
      * 회원 정보 비밀번호 변경
      * */
     ServiceResult password(UserPasswordInput parameter);
+
+    /*
+    * 관리자 회원 상태 변경
+    * */
+    boolean updateStatus(String userId, String userStatus);
 }

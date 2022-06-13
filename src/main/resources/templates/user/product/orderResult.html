@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <title>주문완료</title>
+</head>
+<script>
+    $(function(){
+
+        $("#tabmenu1").click();
+
+        function comma(str) {
+            str = String(str);
+            return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+        }
+
+        var size = $('input[name="size"]').val();
+        var sumPrice = 0;
+        for (i = 0; i < size; i++) {
+            var price = parseInt($($("td[name='price']")[i]).text().replace(",", ""));
+            sumPrice += price;
+        }
+        $("#totalPrice").text(comma(sumPrice) + " 원");
+        $("#finalPrice").text(comma(sumPrice) + " 원");
+    });
+</script>
+<style>
+
+    #wrap{ width:80%;border:1px solid #fff; margin:0 auto;}
+
+    .orderForm{
+
+        margin-top: 70px;
+        text-align: center;
+    }
+
+    .explanation{
+        text-align: right;
+        padding-right: 10px;
+        border-top: 1px solid #d4d5d8;
+    }
+
+    .explanation1{
+
+        margin-top: 0px;
+        text-align: center;
+
+    }
+
+    #division{
+        margin-top: 30px;
+    }
+
+    #division ul{
+        border-bottom: 1px solid #d4d5d8;
+    }
+
+    #division ul li{
+        border-bottom: 1px solid #d4d5d8;
+
+
+    }
+    #division ul li a{
+        /*background: none;*/
+        color: #444;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    #division ul li a:hover{
+        background: #f8b390;
+        color: black;
+    }
+
+
+    /* .active1{  */
+    /*  	background-color: #f8b390;  */
+    /*  	color: white;  */
+    /*  }  */
+
+    #menulist div{
+        border-bottom: 1px solid #d4d5d8;
+    }
+
+
+
+    #orderlistdetail{
+        padding: 10px;
+        border-top: 1px solid #d4d5d8;
+        border-bottom: 1px solid #d4d5d8;
+    }
+
+    #ordertable{
+        text-align: center;
+        margin: 0 auto;
+    }
+    #ordertable tr td{
+        vertical-align: middle;
+        border-bottom: 1px solid #d4d5d8;
+    }
+
+    #ordertable th{
+        text-align: center;
+    }
+
+
+</style>
+<body>
+<div id="wrap">
+    <!-- 	<h2><strong>ORDER LIST</strong></h2> -->
+    <div class="orderForm" style="margin-bottom: 100px;"><h2><strong>구매해 주셔서 감사합니다.</strong></h2></div>
+
+    <div id="division" >
+        <ul class="nav nav-tabs" id="tabmenu">
+            <li><a data-toggle="tab" href="#menu1" id="tabmenu1" style="background: #f8b390">구매상품정보</a></li>
+        </ul>
+        <div class="tab-content" id="menulist">
+            <div id="menu1" class="tab-pane fade" >
+                <table class="table table-hover" id="ordertable">
+
+                    <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Option</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Cost</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="x : ${orderList}">
+                        <input type="hidden" name="size" th:value="${xStat.size}"/>
+                        <td th:text="${#temporals.format(x.redDt, 'yyyy-MM-dd')}">날짜</td>
+                        <td><img style="width: auto; height: auto; max-width: 150px; max-height: 150px;"
+                                 th:src="${x.urlFilename}" class="img-thumbnail" alt="Cinque Terre"></td>
+                        <td th:text="${x.productName}">상품이름</td>
+                        <td th:text="${x.productOption}">옵션</td>
+                        <td th:text="${x.amount}">
+                            상품수량
+                        </td>
+                        <td name="price" th:text="${#numbers.formatInteger(x.price, 0, 'COMMA') + ' 원'}">가격</td>
+                        <!-- 				        <td>Complete</td> -->
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="explanation">
+
+                    <h5>[기본배송]상품구매금액
+                        <span id="sumPrice"></span>
+                        + 배송비 <span id="deliveryPrice"></span>
+                        = 합계 : <span style="display: inline-block; color: #f8b390"><h4 id="totalPrice">
+						   </h4></span></h5>
+
+
+                </div>
+                <div class="explanation1">
+                    <h6>구매내역은 주문내역에서 확인해 주시기 바랍니다</h6>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: left;  margin-top: 30px; border-bottom: 1px solid #d4d5d8"><h5 style="margin-left: 8px;"><strong>결제정보</strong></h5></div>
+
+
+
+        <table class="table table-hover">
+            <colgroup>
+                <col width="10%;">
+                <col width="90%;">
+
+            </colgroup>
+            <tr >
+                <th style="border-right: 1px solid #d4d5d8; border-bottom: 1px solid #d4d5d8; padding-top: 18px;"><label style="margin-right: 30px;">최종결제금액</label></th>
+                <td style="border-left: 1px solid #d4d5d8; border-bottom: 1px solid #d4d5d8;"><label><h4 style="color: #f8b390"><strong  id="finalPrice"></strong></h4></label></td>
+            </tr>
+            <tr>
+                <th style="border-right: 1px solid #d4d5d8; border-bottom: 1px solid #d4d5d8; padding-top: 40px;">결제수단</th>
+                <td style="border-left: 1px solid #d4d5d8; border-bottom: 1px solid #d4d5d8;">
+                        <p>무통장입금</p>
+                        <p>입금자: <span id="name" th:text="${orderName}"></span></p>
+                        <p>계좌번호: 국민은행 046802-04-203870</p>
+                        <p th:if="${message != ''}">배송시 요청사항:<span id="message" th:text="${message}"></span></p>
+                </td>
+            </tr>
+
+
+        </table>
+
+
+        <div style="text-align: right; margin-top: 15px; margin-bottom: 80px;">
+            <button onclick="location.href='/user/order/orderList'" style=" width: 150px;  border: none; color: white; background: #f8b390" type="button"><h5>구매내역 보러가기</h5></button>
+            <button onclick="location.href='/'" style=" width: 150px;  border: none; color: white; background: #f8b390" type="button"><h5>쇼핑 계속하기</h5></button>
+        </div>
+
+
+    </div>
+
+
+</div>
+</body>
+</html>

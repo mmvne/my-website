@@ -98,6 +98,10 @@ public class UserServiceImpl implements UserService{
 
         User user = optionalUser.get();
 
+        if(USER_STATUS_WITHDRAW.equals(user.getUserStatus())){
+            throw new UsernameNotFoundException("회원 정보가 존재하지 않습니다.");
+        }
+
         String uuid = UUID.randomUUID().toString();
         System.out.println("SendReset UUID : " + uuid);
         user.setResetPasswordKey(uuid);
@@ -171,7 +175,7 @@ public class UserServiceImpl implements UserService{
 
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isEmpty()) {
-            return null;
+            throw new UsernameNotFoundException("회원 정보가 존재하지 않습니다.");
         }
 
         User user = optionalUser.get();
@@ -257,6 +261,21 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public boolean updateStatus(String userId, String userStatus) {
+
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isEmpty()) {
+            throw new UsernameNotFoundException("회원 정보가 존재하지 않습니다.");
+        }
+
+        User user = optionalUser.get();
+        user.setUserStatus(userStatus);
+        userRepository.save(user);
+
+        return true;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Optional<User> optionalUser = userRepository.findById(username);
@@ -272,6 +291,10 @@ public class UserServiceImpl implements UserService{
 
         if(USER_STATUS_STOP.equals(user.getUserStatus())){
             throw new UserStopUserException("정지된 회원입니다.");
+        }
+
+        if(USER_STATUS_WITHDRAW.equals(user.getUserStatus())){
+            throw new UsernameNotFoundException("회원 정보가 존재하지 않습니다.");
         }
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();

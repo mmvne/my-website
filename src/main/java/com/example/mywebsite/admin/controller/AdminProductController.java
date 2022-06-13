@@ -2,12 +2,24 @@ package com.example.mywebsite.admin.controller;
 
 import com.example.mywebsite.admin.dto.ProductDto;
 import com.example.mywebsite.admin.entity.Category;
+import com.example.mywebsite.admin.model.OrderStatusInput;
 import com.example.mywebsite.admin.model.ProductInput;
 import com.example.mywebsite.admin.repository.CategoryRepository;
+import com.example.mywebsite.admin.service.AdminOrderService;
 import com.example.mywebsite.admin.service.CategoryService;
 import com.example.mywebsite.admin.service.ProductService;
-import com.example.mywebsite.user.model.ServiceResult;
+import com.example.mywebsite.user.entity.Inquiry;
+import com.example.mywebsite.user.entity.User;
+import com.example.mywebsite.user.entity.UserOrder;
+import com.example.mywebsite.user.model.ReplyInput;
+import com.example.mywebsite.user.repository.InquiryRepository;
+import com.example.mywebsite.user.repository.UserOrderRepository;
+import com.example.mywebsite.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -27,8 +39,13 @@ public class AdminProductController {
 
     private final CategoryService categoryService;
     private final ProductService productService;
+    private final AdminOrderService adminOrderService;
+
 
     private final CategoryRepository categoryRepository;
+    private final UserOrderRepository userOrderRepository;
+    private final InquiryRepository inquiryRepository;
+    private final UserRepository userRepository;
 
     private String[] getNewSaveFile(String baseLocalPath, String baseUrlPath, String originalFilename) {
 
@@ -140,7 +157,6 @@ public class AdminProductController {
     public String productUdtSubmit(Model model, ProductInput parameter
             , MultipartFile file){
 
-        System.out.println("Parameter : " + parameter.toString());
 
         String saveFilename = "";
         String urlFilename = "";
@@ -169,6 +185,121 @@ public class AdminProductController {
         boolean result = productService.set(parameter);
 
         return "redirect:/admin/main.do";
+    }
+
+    @GetMapping("/admin/order/list.do")
+    public String orderListAdmin(Model model
+            , @RequestParam(required = false, defaultValue = "") String searchText
+            , @PageableDefault(size = 10, sort = "regDt", direction = Sort.Direction.DESC) Pageable pageable){
+
+        Page<UserOrder> list = userOrderRepository
+                .findByNameContainingOrOrderNameContainingOrPhoneContainingOrProductNameContaining
+                        (searchText, searchText, searchText, searchText, pageable);
+
+        int startPage = 1;
+        int endPage = list.getTotalPages();
+
+        model.addAttribute("list", list);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        return "admin/order/list";
+    }
+
+    @PostMapping("/admin/status/update.do")
+    public String productAddCart(OrderStatusInput parameter){
+
+        System.out.println("==================================");
+        System.out.println(parameter.toString());
+        System.out.println("==================================");
+        boolean result = adminOrderService.updateStatus(parameter);
+
+        return "redirect:/admin/order/list.do";
+    }
+
+    @GetMapping("/admin/inquiry/list.do")
+    public String adminInquiryList(Model model
+            , @RequestParam(required = false, defaultValue = "") String searchText
+            , @PageableDefault(size = 10, sort = "regDt", direction = Sort.Direction.DESC) Pageable pageable){
+
+        Page<Inquiry> list = inquiryRepository.findByUserIdContaining(searchText, pageable);
+
+        int startPage = 1;
+        int endPage = list.getTotalPages();
+
+        model.addAttribute("list", list);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        return "admin/product/inquiryList";
+    }
+
+    @GetMapping("/admin/inquiry/check")
+    public String adminInquiryDetail(@RequestParam("id") long id, Model model){
+
+        Optional<Inquiry> optionalInquiry = inquiryRepository.findById(id);
+
+        if (optionalInquiry.isEmpty()) {
+            return null;
+        }
+
+        Inquiry inquiry = optionalInquiry.get();
+        if(inquiry.getUrlFilename().contains("jpg")){
+            model.addAttribute("image", inquiry.getUrlFilename());
+        }else{
+            model.addAttribute("image", null);
+        }
+
+        Optional<UserOrder> optionalUserOrder = userOrderRepository.findById(inquiry.getOrderId());
+
+        if (optionalUserOrder.isEmpty()) {
+            return null;
+        }
+
+        UserOrder userOrder = optionalUserOrder.get();
+
+        Optional<User> optionalUser = userRepository.findById(inquiry.getUserId());
+
+        if (optionalUser.isEmpty()) {
+            return null;
+        }
+
+        User user = optionalUser.get();
+
+        model.addAttribute("inquiry", inquiry);
+        model.addAttribute("userOrder", userOrder);
+        model.addAttribute("user", user);
+
+        return "admin/product/inquiryDetail";
+    }
+
+    @GetMapping("/admin/inquiry/reply.do")
+    public String adminInquiryReply(Model model, @RequestParam("id") long id){
+
+        model.addAttribute("id", id);
+
+        Optional<Inquiry> optionalInquiry = inquiryRepository.findById(id);
+
+        if (optionalInquiry.isPresent()) {
+            Inquiry inquiry = optionalInquiry.get();
+            model.addAttribute("inquiry", inquiry);
+        }
+
+        return "admin/product/reply";
+    }
+
+    @PostMapping("/admin/inquiry/reply.do")
+    public String adminInquiryReplyAdd(ReplyInput parameter){
+
+        Optional<Inquiry> optionalInquiry = inquiryRepository.findById(parameter.getInquiryId());
+
+        if (optionalInquiry.isPresent()) {
+            Inquiry inquiry = optionalInquiry.get();
+            inquiry.setReplyText(parameter.getReplyText());
+            inquiryRepository.save(inquiry);
+        }
+
+        return "redirect:/admin/inquiry/list.do";
     }
 
 }

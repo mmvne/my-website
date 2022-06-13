@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Shop Item - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/styles.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<script>
+    $(function(){
+
+
+    })
+</script>
+<style>
+    html,
+    body {
+        height: 100%;
+        display: flex;
+        flex-flow: column;
+        margin: 0;
+    }
+    .wrapper {
+        flex: 1;
+    }
+    .table{
+        margin: 0 auto;
+        width: 80%;
+        margin-top: 50px;
+        margin-bottom: 10px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .count{
+        text-align: center;
+        width: 35px;
+    }
+    .minus:hover{
+        background-color: #717fe0 !important;
+    }
+    .plus:hover{
+        background-color: #717fe0 !important;
+    }
+
+    .totalPrice{
+        margin: 0 auto;
+        text-align: center;
+        line-height: 2em;
+        font-weight: bold;
+        font-size: 18px;
+    }
+    .orderForm{
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    .dateDiv{
+        position: relative;
+        top : 40px;
+        left: 365px;
+    }
+    .dateDiv a{
+        text-decoration: none;
+        color: #FF6666;
+    }
+    .dateDiv a:hover{
+        color: #f8b390;
+    }
+    p.nothing{
+        text-align: center;
+        padding: 100px;
+    }
+</style>
+<body style="overflow-x: hidden">
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="/">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">내 정보</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/user/info">회원 정보</a></li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        <li><a class="dropdown-item" href="/user/order/orderList">주문내역</a></li>
+                        <li><a class="dropdown-item" href="#!">문의하기</a></li>
+                        <li><a class="dropdown-item" href="#!">커뮤니티</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <a sec:authorize="!isAuthenticated()" href="/user/login" class="btn btn-outline-dark" role="button">
+                <i class="bi-person-fill me-1"></i>
+                login
+            </a>
+            <a sec:authorize="isAuthenticated()" href="/user/logout" class="btn btn-outline-dark" role="button">
+                <i class="bi-person-fill me-1"></i>
+                logout
+            </a>
+        </div>
+    </div>
+</nav>
+<!-- Product section-->
+<div class="wrapper">
+    <div class="orderForm"><h2><strong>문의 내역</strong></h2></div>
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">날짜</th>
+            <th scope="col">문의 유형</th>
+            <th scope="col">제목</th>
+            <th scope="col">상태</th>
+        </tr>
+        </thead>
+        <tbody id="dataList">
+        <tr th:each="x : ${inquiryList}">
+            <td th:text="${#temporals.format(x.regDt, 'yyyy-MM-dd')}">날짜</td>
+            <td th:text="${x.inquiryType}">문의 유형</td>
+            <td>
+                <a style="text-decoration: none;" th:href="@{/user/inquiry/check(id=${x.inquiryId})}" th:text="${x.subject}">제목</a>
+            </td>
+            <td th:if="${x.replyText == null}">처리중</td>
+            <td th:if="${x.replyText != null}">
+                <a th:href="@{/user/inquiry/check(id=${x.inquiryId})}">답변 완료</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.size(inquiryList) < 1}">
+            <td colspan="4">
+                <p class="nothing">문의내역이 없습니다.</p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="mb-1" style="text-align: center;">
+    <a href="/user/product/addInquiry" class="btn btn-dark" role="button">
+        문의하기
+    </a>
+</div>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/js/scripts.js"></script>
+</body>
+</html>

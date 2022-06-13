@@ -10,6 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @Controller
@@ -19,9 +20,11 @@ public class AdminMainController {
 
     @RequestMapping("/admin/main.do")
     public String main(Model model
-            ,  @PageableDefault(size = 8, sort = "productId", direction = Sort.Direction.DESC) Pageable pageable){
+            , @RequestParam(required = false, defaultValue = "") String searchText
+            , @PageableDefault(size = 8, sort = "productId", direction = Sort.Direction.DESC) Pageable pageable){
 
-        Page<Product> products = productRepository.findAll(pageable);
+        Page<Product> products =
+                productRepository.findByKeywordContainingOrProductNameContainingOrContentsContaining(searchText, searchText, searchText, pageable);
 
         int startPage = 1;
         int endPage = products.getTotalPages();

@@ -9,38 +9,34 @@
     <!------ Include the above in your HEAD tag ---------->
 
 <script>
-    // $(function(){
-    //
-    //     $("#udtButton").on("click", function(){
-    //         alert("상품이 수정 되었습니다.");
-    //     })
-    //
-    //     $("#categorySelect").on("change", function(){
-    //         var selectText = $("#categorySelect option:selected").text();
-    //
-    //         $("input[name='category']").val(selectText);
-    //
-    //     })
-    //
-    //     $("#saleCheck").on("click", function(){
-    //         var checked = $('#saleCheck').is(':checked');
-    //
-    //         if(checked){
-    //             $("input[name='saleYn']").val(true);
-    //             $("input[name='salePrice']").val("");
-    //             $("input[name='saleEndDtText']").val("");
-    //         }
-    //
-    //         if(!checked){
-    //             $("input[name='salePrice']").val(0);
-    //             $("input[name='saleEndDtText']").val(0);
-    //         }
-    //
-    //
-    //     })
-    //
-    //
-    // });
+    $(function(){
+
+        $("#categorySelect").on("change", function(){
+            var selectText = $("#categorySelect option:selected").text();
+
+            $("input[name='category']").val(selectText);
+
+        })
+
+        $("#saleCheck").on("click", function(){
+            var checked = $('#saleCheck').is(':checked');
+
+            if(checked){
+                $("input[name='saleYn']").val(true);
+                $("input[name='salePrice']").val("");
+                $("input[name='saleEndDtText']").val("");
+            }
+
+            if(!checked){
+                $("input[name='salePrice']").val(0);
+                $("input[name='saleEndDtText']").val(0);
+            }
+
+
+        })
+
+
+    });
 </script>
 </head>
 <body>

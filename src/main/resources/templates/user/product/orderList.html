@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Shop Item - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/styles.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<script>
+    $(function(){
+
+
+    })
+</script>
+<style>
+    html,
+    body {
+        height: 100%;
+        display: flex;
+        flex-flow: column;
+        margin: 0;
+    }
+    .wrapper {
+        flex: 1;
+    }
+    .table{
+        margin: 0 auto;
+        width: 80%;
+        margin-top: 50px;
+        margin-bottom: 10px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .count{
+        text-align: center;
+        width: 35px;
+    }
+    .minus:hover{
+        background-color: #717fe0 !important;
+    }
+    .plus:hover{
+        background-color: #717fe0 !important;
+    }
+
+    .totalPrice{
+        margin: 0 auto;
+        text-align: center;
+        line-height: 2em;
+        font-weight: bold;
+        font-size: 18px;
+    }
+    .orderForm{
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    .dateDiv{
+        position: relative;
+        top : 40px;
+        left: 365px;
+    }
+    .dateDiv a{
+        text-decoration: none;
+        color: #FF6666;
+    }
+    .dateDiv a:hover{
+        color: #f8b390;
+    }
+    p.nothing{
+        text-align: center;
+        padding: 100px;
+    }
+</style>
+<body style="overflow-x: hidden">
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="/">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">내 정보</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/user/info">회원 정보</a></li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        <li><a class="dropdown-item" href="/user/order/orderList">주문내역</a></li>
+                        <li><a class="dropdown-item" href="/user/product/inquiry">문의하기</a></li>
+                        <li><a class="dropdown-item" href="#!">커뮤니티</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <a sec:authorize="!isAuthenticated()" href="/user/login" class="btn btn-outline-dark" role="button">
+                <i class="bi-person-fill me-1"></i>
+                login
+            </a>
+            <a sec:authorize="isAuthenticated()" href="/user/logout" class="btn btn-outline-dark" role="button">
+                <i class="bi-person-fill me-1"></i>
+                logout
+            </a>
+        </div>
+    </div>
+</nav>
+<!-- Product section-->
+<div class="wrapper">
+    <div class="orderForm"><h2><strong>ORDER LIST</strong></h2></div>
+
+    <div class="dateDiv">
+        <a href="/user/order/orderList">전체</a>
+        |
+        <a href="/user/order/orderList?date=1">오늘</a>
+        |
+        <a href="/user/order/orderList?date=2">1주일</a>
+        |
+        <a href="/user/order/orderList?date=3">1개월</a>
+        |
+        <a href="/user/order/orderList?date=4">3개월</a>
+    </div>
+
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Image</th>
+            <th scope="col">Name</th>
+            <th scope="col">Option</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody id="dataList">
+        <tr th:each="x : ${orderList}">
+            <input type="hidden" name="size" th:value="${xStat.size}"/>
+            <td th:text="${#temporals.format(x.regDt, 'yyyy-MM-dd')}">날짜</td>
+            <td><img style="width: auto; height: auto; max-width: 150px; max-height: 150px;"
+                     th:src="${x.urlFilename}" class="img-thumbnail" alt="Cinque Terre"></td>
+            <td th:text="${x.productName}">상품이름</td>
+            <td th:text="${x.productOption}">옵션</td>
+            <td th:text="${x.amount}">
+                상품수량
+            </td>
+            <td name="price" th:text="${#numbers.formatInteger(x.price, 0, 'COMMA') + ' 원'}">가격</td>
+            <td th:if="${x.orderStatus eq 'CHECK'} ">
+               입금 확인
+           </td>
+            <td th:if="${x.orderStatus eq 'STANDBY'} ">
+                출고 대기
+            </td>
+            <td th:if="${x.orderStatus eq 'COMPLETED'} ">
+                출고 완료
+            </td>
+            <td th:if="${x.orderStatus eq 'COMPLETED'}">
+                <a th:href="@{/user/product/review(id=${x.productId}, option=${x.productOption})}">리뷰쓰기</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.size(orderList) < 1}">
+            <td colspan="8">
+                <p class="nothing">구매내역이 없습니다.</p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/js/scripts.js"></script>
+</body>
+</html>

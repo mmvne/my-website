@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원정보 상세 페이지</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+</head>
+<script>
+    $(function(){
+
+        $("#statusSelect").on("change", function(){
+            var selectVal = $("#statusSelect option:selected").val();
+
+            $("input[name='userStatus']").val(selectVal);
+
+        })
+
+        $('form').submit(function(){
+            if(!confirm('회원 정보를 수정하시겠습니까?')){
+                return false;
+            }
+        })
+
+    })
+</script>
+<body>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">회원정보</div>
+                <div class="card-body">
+
+                        <div class="form-group">
+                            <label for="userId" class="cols-sm-2 control-label">아이디(이메일)</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                    <input type="email" class="form-control" name="userId" th:value="${detail.userId}" id="userId"  readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="username" class="cols-sm-2 control-label">이름</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="userName" id="userName" th:value="${detail.userName}" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="cols-sm-2 control-label">전화번호</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="tel" class="form-control" name="phone" id="phone" th:value="${detail.phone}" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="zipcode" class="cols-sm-2 control-label">우편번호</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="tel" class="form-control" name="zipcode" id="zipcode" th:value="${detail.zipcode}" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="cols-sm-2 control-label">주소</label>
+                            <div class="cols-xs-2">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input class="form-control" type="text" id="addr" name="addr" th:value="${detail.addr}" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="addrDetail" id="addrDetail" th:value="${detail.addrDetail}" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    <form class="form-horizontal" method="post" action="/admin/user/status.do">
+                        <div class="form-group">
+                            <label for="userStatus" class="cols-sm-2 control-label">회원 상태</label>
+                            <input type="hidden" name="userId" th:value="${detail.userId}"/>
+                            <select id="statusSelect">
+                                <option th:if="${detail.userStatus} eq 'WITHDRAW'" value=""></option>
+                                <option th:selected="${detail.userStatus} eq 'REQ'" value="REQ">가입승인증</option>
+                                <option th:selected="${detail.userStatus} eq 'ING'" value="ING">정상이용중</option>
+                                <option th:selected="${detail.userStatus} eq 'STOP'" value="STOP">정지중</option>
+                            </select>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="tel" class="form-control" name="userStatus" id="userStatus" th:value="${detail.userStatus}" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block login-button">회원정보 변경</button>
+                        </div>
+                    </form>
+                        <div>
+                            <a href="/admin/user/list.do">목록으로</a>
+                            <a class="ml-3" href="/user/password">비밀번호 변경</a>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
